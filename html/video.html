@@ -1,0 +1,76 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8 ie7" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9 ie8" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+    <title>Media manager filmstrip</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=1060,maximum-scale=1.0" />
+    <link href="img/favicon.png" type="image/ico" rel="shortcut icon">
+    <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link rel="stylesheet" href="../css/10-video.css">
+    <link rel="stylesheet" href="../css/11-video-filmstrip.css">
+    <script src="js/libs/modernizr-2.5.3.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="../js/script.js"></script>
+</head>
+<body>
+    <!--video component template -->
+    <!--the data attributes could be hard-coded in the CT, or come from fields in the component -->
+    <figure id="video" class="video video--mediaManager" data-video='{"height": "500px", "width": "850px", "autoplay": "false", "restart" : "true"}'
+    data-shareWidget="true">
+        <div id="video__wrapper" class="video__wrapper">
+            <!-- Share Elements -->
+            <div class="video__share">
+                <button class="video__share__button js-invisible">Share This Video</button>
+                <div class="video__share__options vidOptions">
+                    <!-- Social Media share options -->
+                    <div class="vidOptions__shareThis">
+                        <h4 class="vidOptions__title">Share This Video</h4>
+                        <div class="vidOptions__shareThis__widgetWrapper">
+                            <!-- insert share this javascript here -->
+                            <!--<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script> -->
+                        </div>
+                    </div>
+                    <!-- Non-social media sharing -->
+                    <fieldset class="vidOptions__copyPaste">
+                        <label class="vidOptions__title" for="videoPageLink">Link</label>
+                        <input id="videoPageLink" class="vidOptions__copyPaste__input vidOptions__copyPaste__input--pageLink" disabled="true"
+                        value="/video.html" />
+                        <label class="vidOptions__title" for="videoPageEmbed">Embed</label>
+                        <textarea id="videoPageEmbed" class="vidOptions__copyPaste__input vidOptions__copyPaste__input--pageEmbed"
+                        disabled="true" />
+                            <iframe src="/video.html#video__player"></iframe>
+                        </textarea>
+                    </fieldset>
+                </div>
+            </div>
+            <!--/video__share -->
+            <!-- script for player -->
+            <!--JavaScript allows for #video__iframe to be a script element or an iframe -->
+            <script id="video__iframe" class="video__player" type="text/javascript">
+                $.getScript(
+                    'http://nationwide.dist.sdlmedia.com/vms/distribution/embed/?o=FA8496AF-D6D0-4BB0-AA57-D4969790A31C&trgt=video__player'
+                )
+            </script>
+            <!-- video player is left blank - it's solely needed for the JavaScript option -->
+            <div id="video__player"></div>
+        </div>
+        <!--Content about video -->
+        <!--This content could come from a component in Tridion -->
+        <figcaption class="video__description">
+            <h3 class="video__description__title">This is a  video of some sort</h3>
+            <div class="video__description__text">
+                <p>this is the page and stuff</p>
+            </div>
+        </figcaption>
+    </figure>
+</body>
+
+</html>

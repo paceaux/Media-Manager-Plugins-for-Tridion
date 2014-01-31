@@ -1,0 +1,116 @@
+.video{
+	width: 850px;
+	margin: 0 auto;
+}
+.video--mediaManager{
+	padding: 20px 4%;
+}
+.video__wrapper, .video__wrapper iframe{
+	width: inherit;
+}
+
+.video--noShare .video__share{
+	display:none;
+}
+.video__share__button{
+	text-indent: -9999em;
+	position:absolute;
+	z-index: 50;
+	right: 65px;
+/*	top: 98px;
+*/	height: 50px;
+	width: 50px;
+	border: none;
+	outline: none;
+	background-color: rgb(0,0,0);
+	background-color: rgba(0,0,0, .4);
+	background-image: url('/static/mediaManager__share.png');
+	background-repeat: no-repeat;
+	-webkit-transition: all .3s ease-in-out;
+	-moz-transition: all .3s ease-in-out;
+	-o-transition: all .3s ease-in-out;
+	transition: all .3s ease-in-out;
+}
+.video__share__button:hover,
+.video__share__button:focus,
+.video__share__button:active{
+	border: none;
+	outline: none;
+	background-color: rgb(40,40,40);
+	background-color: rgba(0,0,0, .6);
+	-webkit-transition: all .3s ease-in;
+	-moz-transition: all .3s ease-in;
+	-o-transition: all .3s ease-in;
+	transition: all .3s ease-in;
+}
+.video__share__options, .vidOptions{
+	display: none;
+	position:absolute;
+	z-index: 40;
+	right: 65px;
+/*	top: 98px;
+*/	padding: 20px;
+	height: 225px;
+	width: 567px;
+	border-radius: 3px;
+	background-color: rgb(0,0,0);
+	background-color: rgba(0,0,0, .4);
+}
+.vidOptions__shareThis{
+	height: 60px;
+}
+.vidOptions__title{
+	display:block;
+	color: #fff;
+	font-family:"proxima-nova",sans-serif;
+	font-weight: bold;
+	font-size: 1.125em;
+	margin-bottom: .25em;
+}
+.vidOptions__copyPaste{
+
+}
+.vidOptions__input{
+	width: 97%;
+	padding: .618em;
+	margin-bottom: 1em
+}
+.video__wrapper iframe, .video__player, #video__player{
+	margin-bottom: 0px;
+	background-image: url('/static/ajax-loader.gif');
+	background-repeat: no-repeat;
+	background-position: 370px 200px;
+}
+#video__player, .video__player{
+	width: 100%;
+	overflow: visible;
+}
+.video__description{
+	font-family:"proxima-nova",sans-serif;
+	margin-top: 25px;
+}
+.video__description__title{
+	font-weight: bold;
+	font-size: 1.5em;
+	margin-bottom: 20px;
+}
+.video__description__text{
+	font-size: .875em;
+	color: #333;
+}
+.js-hidden{
+	display:none;
+}
+.js-visible{
+	display:block;
+	visibility: visible;
+}
+.js-invisible{
+	visibility: hidden;
+}
+.js-active, .js-active > * {
+	cursor: default;
+}
+.js-active img{
+	opacity: .6;
+}
