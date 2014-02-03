@@ -1,9 +1,13 @@
 .video{
-	width: 850px;
-	margin: 0 auto;
+	float:left;
+	width: 300px;
+	margin: 0 2em;
 }
 .video--mediaManager{
-	padding: 20px 4%;
+	padding: 1.618em;
+	border:.25em solid #ccc;
+	box-shadow: 0px 0px 1px .25em #FFF, 0px 0px 0px .75em #CCC;
+
 }
 .video__wrapper, .video__wrapper iframe{
 	width: inherit;
@@ -62,7 +66,7 @@
 .vidOptions__title{
 	display:block;
 	color: #fff;
-	font-family:"proxima-nova",sans-serif;
+	font-family:Arial,sans-serif;
 	font-weight: bold;
 	font-size: 1.125em;
 	margin-bottom: .25em;
@@ -77,7 +81,7 @@
 }
 .video__wrapper iframe, .video__player, #video__player{
 	margin-bottom: 0px;
-	background-image: url('/static/ajax-loader.gif');
+	background-image: url('/img/ajax-loader.gif');
 	background-repeat: no-repeat;
 	background-position: 370px 200px;
 }
@@ -86,8 +90,10 @@
 	overflow: visible;
 }
 .video__description{
-	font-family:"proxima-nova",sans-serif;
-	margin-top: 25px;
+	font-family:Arial,sans-serif;
+	border-top: 1px solid #888;
+	margin-top: .618em;
+
 }
 .video__description__title{
 	font-weight: bold;
