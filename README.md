@@ -45,8 +45,9 @@ It's not necessary to set the parameters in a single HTML `data-*` attribute. Th
 ### Using the jQuery plugin
 To use the jQuery plugin, just make sure that `mm.plugin.js` is included in your HTML pages after your jQuery file (optimally, at the bottom of the page). After you've included the jQuery plugin file, you should add this to any JavaScript that would execute *after* the jQuery plugin file is loaded: 
     
-    $('data-video').mediamanager();
+    $('[data-video]').mediamanager();
 
+You can use any standard jQuery selector, however, this one guarantees that you always execute the mediamanager function on elements that have the `data-video` attribute. 
 
 ### Upcoming jQuery Plugin features
 
