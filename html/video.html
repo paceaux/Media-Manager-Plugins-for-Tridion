@@ -16,61 +16,36 @@
     <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
     <link rel="stylesheet" href="../css/10-video.css">
     <link rel="stylesheet" href="../css/11-video-filmstrip.css">
-    <script src="js/libs/modernizr-2.5.3.min.js"></script>
-    <script src="js/plugins.js"></script>
-    <script src="../js/script.js"></script>
 </head>
 <body>
     <!--video component template -->
     <!--the data attributes could be hard-coded in the CT, or come from fields in the component -->
-    <figure id="video" class="video video--mediaManager" data-video='{"height": "500px", "width": "850px", "autoplay": "false", "restart" : "true"}'
-    data-shareWidget="true">
-        <div id="video__wrapper" class="video__wrapper">
-            <!-- Share Elements -->
-            <div class="video__share">
-                <button class="video__share__button js-invisible">Share This Video</button>
-                <div class="video__share__options vidOptions">
-                    <!-- Social Media share options -->
-                    <div class="vidOptions__shareThis">
-                        <h4 class="vidOptions__title">Share This Video</h4>
-                        <div class="vidOptions__shareThis__widgetWrapper">
-                            <!-- insert share this javascript here -->
-                            <!--<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script> -->
-                        </div>
-                    </div>
-                    <!-- Non-social media sharing -->
-                    <fieldset class="vidOptions__copyPaste">
-                        <label class="vidOptions__title" for="videoPageLink">Link</label>
-                        <input id="videoPageLink" class="vidOptions__copyPaste__input vidOptions__copyPaste__input--pageLink" disabled="true"
-                        value="/video.html" />
-                        <label class="vidOptions__title" for="videoPageEmbed">Embed</label>
-                        <textarea id="videoPageEmbed" class="vidOptions__copyPaste__input vidOptions__copyPaste__input--pageEmbed"
-                        disabled="true" />
-                            <iframe src="/video.html#video__player"></iframe>
-                        </textarea>
-                    </fieldset>
-                </div>
-            </div>
-            <!--/video__share -->
-            <!-- script for player -->
-            <!--JavaScript allows for #video__iframe to be a script element or an iframe -->
-            <script id="video__iframe" class="video__player" type="text/javascript">
-                $.getScript(
-                    'http://nationwide.dist.sdlmedia.com/vms/distribution/embed/?o=FA8496AF-D6D0-4BB0-AA57-D4969790A31C&trgt=video__player'
-                )
-            </script>
-            <!-- video player is left blank - it's solely needed for the JavaScript option -->
-            <div id="video__player"></div>
-        </div>
+<figure class="video video--mediaManager">
+    <div id="video__player" data-video='{"height": "200px", "type":"embed"}' data-video-url="http://nationwide.dist.sdlmedia.com/vms/distribution/embed/?o=46A74ED4-23BC-4E29-9B2C-D3E1C9D338FD" data-video-player='{"autoplay": "false"}'></div>
+    <!--Content about video -->
+    <!--This content could come from a component in Tridion -->
+    <figcaption class="video__description">
+    <h3 class="video__description__title">This is a  video of some sort</h3>
+    <div class="video__description__text">
+        <p>this is the page and stuff</p>
+    </div>
+    </figcaption>
+</figure>
+    <figure class="video video--mediaManager">
+        <!-- video player is left blank - it's solely needed for the JavaScript option -->
+        <div id="video__player2" data-video='{"height": "300px", "type":"embed"}' data-video-url="http://nationwide.dist.sdlmedia.com/Distributions/?o=1F2C97BE-DE64-467C-A6D1-3A5DCFE38215" data-video-player='{"autoplay": "false"}'></div>
         <!--Content about video -->
         <!--This content could come from a component in Tridion -->
         <figcaption class="video__description">
-            <h3 class="video__description__title">This is a  video of some sort</h3>
-            <div class="video__description__text">
-                <p>this is the page and stuff</p>
-            </div>
+        <h3 class="video__description__title">This is another  video of some sort</h3>
+        <div class="video__description__text">
+            <p>this is more and stuff</p>
+        </div>
         </figcaption>
-    </figure>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/mm.plugin.js"></script>
+    <script type="text/javascript">
+$('[data-video]').mediamanager();
+    </script>
 </body>
-
 </html>
