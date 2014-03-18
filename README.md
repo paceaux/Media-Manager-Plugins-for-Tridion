@@ -3,10 +3,6 @@
 JavaScript plugins, jQuery plugins,  and Razor TBBs that make it a easier to get Media Manager working in Tridion
 
 
-## The JavaScript Filmstrip Module
-
-The JavaScript Module is designed to work in conjunction with a "filmstrip". a jQuery plugin for the "filmstrip" is **not ** provided. JavaScript for the filmstrip is also not included.
-
 ### JavaScript Filmstrip Module - Upcoming Features
 + a jQuery plugin for the filmstrip itself 
 
@@ -40,7 +36,7 @@ The following parameters are available to you:
 
 It's not necessary to set the parameters in a single HTML `data-*` attribute. This can make for writing messy TBBs. If you want, you can make each parameter its own `data-video-*`  attribute: 
     
-    <div data-video='{"height": "150px", "width":"250px"}' data-video-type='{"type":"embed"}' data-video-url='{"url":"http://nationwide.dist.sdlmedia.com/vms/distribution/embed/?o=46A74ED4-23BC-4E29-9B2C-D3E1C9D338FD"}'></div>
+    <div data-video='{"height": "150px", "width":"250px"}' data-video-type='{"type":"embed"}' data-video-url="http://nationwide.dist.sdlmedia.com/vms/distribution/embed/?o=46A74ED4-23BC-4E29-9B2C-D3E1C9D338FD"></div>
 
 ### Using the jQuery plugin
 To use the jQuery plugin, just make sure that `mm.plugin.js` is included in your HTML pages after your jQuery file (optimally, at the bottom of the page). After you've included the jQuery plugin file, you should add this to any JavaScript that would execute *after* the jQuery plugin file is loaded: 
@@ -52,5 +48,4 @@ You can use any standard jQuery selector, however, this one guarantees that you 
 ### Upcoming jQuery Plugin features
 
 + binding player events to external elements
-+ loading gif
 
