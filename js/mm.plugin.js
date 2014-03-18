@@ -3,9 +3,17 @@
         return this.each(function() {
             //SETUP
             var video,
-                data = $.extend($(this).data('video'),$(this).data('video-url'), $(this).data('video-type'), $(this).data('video-height'), $(this).data('video-width')),
-                $this = $(this);
+                data = $.extend($(this).data('video'), params),
+                $this = $(this),
+                thisEl = document.getElementById($this.attr('id'));
 
+            for (var attr, i=0, attrs=thisEl.attributes, l=attrs.length; i<l; i++){
+                attr = attrs.item(i)
+                if (attr.nodeName.match('data-video-')){
+                    name = attr.nodeName.replace('data-video-','');
+                    data[name] = attr.nodeValue;
+                }
+            }
             //DEFAULT SETTINGS
             var settings = $.extend({
             'height' : '100%',
@@ -19,7 +27,6 @@
                     var _this = this;
                     _this.functions.cleanUrl();
                     _this.functions.getVideo();
-                    _this.bindPlayerEvents();
                 },
                 helpers: {
                     generateId: function () {
@@ -43,7 +50,9 @@
                         var _this = video,
                             id = _this.helpers.getId(),
                             url = _this.helpers.generateScriptUrl(data.url, id);
-                        $.getScript(url);
+                        $.getScript(url).done(function(e){
+                            $(document).bind('MMPLAYERREADY', _this.helpers.playerready);
+                        });
                     },
                     setIframe: function () {
                         var _this = video,
@@ -52,20 +61,33 @@
                         iframe.src = url;
                         $this.append(iframe);
 
-                    }                    
-                },
-                bindPlayerEvents: function () {
-                    var _this = video;
-                    $(document).bind('MMPLAYERREADY', function (e) {
+                    }, 
+                    playerready: function (e) {
+                        var _this = video,
+                            player = $('#'+e.value);
                         _this.functions.setDimensions();
-                    })
+                        _this.bindPlayerEvents(player)
+                    }            
+                },
+                bindPlayerEvents: function (player) {
+                    var _this = video, 
+                        videoEl = document.getElementById($(player).find('video').attr('id'));
+                    console.log(videoEl);
+                    $(player).on("player-ready",function (e) {
+                        console.log("player is ready");
+                    });
+                    videoEl.onplay = function (e) {
+                        console.log('is playing');
+                    }
                 },
                 functions:{
                     cleanUrl: function () {
-                        data.url = data.url.replace('vms/distribution', 'Distributions');
-                        
+                        console.log(data);
+                        if (!data.url.match('embed')){
+                            data.url = data.url.replace('Distributions', 'Distributions/embed/');
+                        }
                     },
-                    setDimensions: function () {
+                    setDimensions: function (player) {
                         var _this = video,
                             h = data.height != null ? data.height : $this.height(),
                             w = data.width != null ? data.width : $this.width();
@@ -96,3 +118,4 @@
 
     }
 }( jQuery));
+$('[data-video]').mediamanager();
