@@ -1,0 +1,24 @@
+.sdlmm__video {
+  object-fit: contain;
+  transition: all 1s ease-in-out;
+}
+.sdlmm__caption {
+  padding: 0.618em;
+  background: rgba(180,180,180,0.6);
+}
+.sdlmm--triangle .sdlmm__video {
+  clip-path: polygon(0% 100%, 50% 0%, 50% 0%, 100% 100%);
+  -webkit-clip-path: polygon(0% 100%, 50% 0%, 50% 0%, 100% 100%);
+}
+.sdlmm--triangle .sdlmm__video:hover {
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  -webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+.sdlmm--circle .sdlmm__video {
+  clip-path: circle(35% at 50% 50%);
+  -webkit-clip-path: circle(35% at 50% 50%);
+}
+.sdlmm--circle .sdlmm__video:hover {
+  clip-path: circle(100% at 50% 50%);
+  -webkit-clip-path: circle(100% at 50% 50%);
+}
