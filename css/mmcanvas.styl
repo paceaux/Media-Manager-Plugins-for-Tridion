@@ -1,0 +1,56 @@
+.sdlmm{
+	position:relative;
+	width: 850px;
+  &__video{
+    object-fit: contain
+    transition: all 1s ease-in-out;
+  }
+  &__caption{
+  	padding: .618em;
+  	background: rgba(180,180,180, .6)
+  }
+  &__overlay{
+  	z-index: 10;
+  	position:absolute;
+  	
+  	top: 0
+  	left: 0;
+  	height: 100%;
+  	width: 100%;
+  	display: flex;
+  	flex-direction: row;
+  	flex-wrap: wrap;
+  	justify-content: center;
+  	align-items: center;
+  	&__square {
+  		flex-grow:1;
+  		flex-shrink: 1;
+  		width: 8em;
+  		height: 8em;
+  		outline: 2em solid white;
+  		background: transparent;
+  		
+  	}
+  }
+  &--triangle {
+  	.sdlmm__video{
+    	clip-path: polygon(0% 100%, 50% 0%,50% 0%, 100% 100%);
+    	-webkit-clip-path: polygon(0% 100%, 50% 0%,50% 0%, 100% 100%);
+    	&:hover {
+	    	clip-path: polygon(0% 0%, 100% 0%,100% 100%, 0% 100%);
+	    	-webkit-clip-path: polygon(0% 0%, 100% 0%,100% 100%, 0% 100%);
+	    }
+    }
+  }
+  &--circle {
+  	.sdlmm__video{
+    	clip-path: circle(35% at 50% 50%);
+    	-webkit-clip-path: circle(35% at 50% 50%);
+	    &:hover {
+	    	clip-path: circle(100% at 50% 50%);
+	    	-webkit-clip-path: circle(100% at 50% 50%);
+	    }
+    }
+  }
+  
+}
