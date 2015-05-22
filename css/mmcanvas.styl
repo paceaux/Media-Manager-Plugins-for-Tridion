@@ -22,6 +22,12 @@
   	flex-wrap: wrap;
   	justify-content: center;
   	align-items: center;
+  	transition: all 1s ease-in-out;
+  	&:hover{
+  		.sdlmm__overlay__square{
+  			outline: 0em solid white;
+  		}
+  	}
   	&__square {
   		flex-grow:1;
   		flex-shrink: 1;
@@ -29,6 +35,8 @@
   		height: 8em;
   		outline: 2em solid white;
   		background: transparent;
+	   	transition: all 1s ease-in-out;
+
   		
   	}
   }

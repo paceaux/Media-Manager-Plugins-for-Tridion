@@ -1,3 +1,7 @@
+.sdlmm {
+  position: relative;
+  width: 850px;
+}
 .sdlmm__video {
   object-fit: contain;
   transition: all 1s ease-in-out;
@@ -5,6 +9,32 @@
 .sdlmm__caption {
   padding: 0.618em;
   background: rgba(180,180,180,0.6);
+}
+.sdlmm__overlay {
+  z-index: 10;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  transition: all 1s ease-in-out;
+}
+.sdlmm__overlay:hover .sdlmm__overlay__square {
+  outline: 0em solid #fff;
+}
+.sdlmm__overlay__square {
+  flex-grow: 1;
+  flex-shrink: 1;
+  width: 8em;
+  height: 8em;
+  outline: 2em solid #fff;
+  background: transparent;
+  transition: all 1s ease-in-out;
 }
 .sdlmm--triangle .sdlmm__video {
   clip-path: polygon(0% 100%, 50% 0%, 50% 0%, 100% 100%);
