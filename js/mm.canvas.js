@@ -14,7 +14,6 @@
               this.data[name] = attr.nodeValue;
           }
       }
-      console.log(this.data)
       this.Uuid = function () {
         return this.data.url.substring(this.data.url.indexOf('=')+1);
       };
@@ -42,7 +41,9 @@
           video.appendChild(source);
         });
         video.autoplay = _this.data.autoplay;
-        video.volume = _this.data.volume;
+        video.volume = parseInt(_this.data.volume);
+        video.loop = _this.data.loop;
+        video.controls = _this.data.controls;
         return video;
       };
 
@@ -62,7 +63,6 @@
               _this.appendChild(video);
             }
           });
-
         });
       //DEFAULT SETTINGS
       var settings = $.extend({
