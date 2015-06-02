@@ -8,6 +8,35 @@
       var video,
           _this = this,
           $this = $(this);
+          this.colorizing = {
+            rgb: {
+              r: 255,
+              g: 255,
+              b: 255
+            },
+            hslToRgb: function (h,s,l) {
+              var r, g, b;
+              if (s == 0) {
+                r = g = b = l; // achromatic
+              } else {
+                function hue2rgb(p, q, t) {
+                  if(t < 0) t += 1;
+                  if(t > 1) t -= 1;
+                  if(t < 1/6) return p + (q - p) * 6 * t;
+                  if(t < 1/2) return q;
+                  if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+                  return p;
+                }
+
+                var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                var p = 2 * l - q;
+                r = hue2rgb(p, q, h + 1/3);
+                g = hue2rgb(p, q, h);
+                b = hue2rgb(p, q, h - 1/3);
+              }
+              return [r * 255, g * 255, b * 255];
+            },
+          };
           this.callbacks= {
             vidSuc: function (stream) {
               var _this = videoStream;
@@ -72,16 +101,16 @@
         if (src !== undefined) {
 
           _this.ctx.drawImage(src, x,y, w, h);
-          // var pixels = _this.ctx.getImageData(0,0,w,h),
-          // i = 0,
-          // brightness;
-            // for (; i < pixels.data.length; i += 4) {
-            //   brightness = ((3*pixels.data[i]+4*pixels.data[i+1]+pixels.data[i+2])>>>3) / 256;
-            //   pixels.data[i] = ((_this.data.rgb.r * brightness)+0.5)>>0;
-            //   pixels.data[i+1] = ((_this.data.rgb.g * brightness)+0.5)>>0
-            //   pixels.data[i+2] = ((_this.data.rgb.b * brightness)+0.5)>>0
-            // }
-            // _this.canvas.putImageData(pixels, 0, 0);
+          var pixels = _this.ctx.getImageData(0,0,w,h),
+          i = 0,
+          brightness;
+            for (; i < pixels.data.length; i += 4) {
+               brightness = ((3*pixels.data[i]+4*pixels.data[i+1]+pixels.data[i+2])>>>3) / 256;
+               pixels.data[i] = ((_this.colorizing.rgb.r * brightness)+0.5)>>0;
+               pixels.data[i+1] = ((_this.colorizing.rgb.g * brightness)+0.5)>>0
+               pixels.data[i+2] = ((_this.colorizing.rgb.b * brightness)+0.5)>>0
+            }
+             _this.ctx.putImageData(pixels, 0, 0);
 
           window.requestAnimationFrame(function () {
             _this.drawOnCanvas(_this.videoEl, 0,0,w,h);
@@ -102,6 +131,7 @@
           source.src = resource.url;
           video.appendChild(source);
         });
+        video.crossOrigin = "Anonymous";
         if (this.data.space !== 'background') {
           video.volume = parseInt(_this.data.volume);
           video.controls = _this.data.controls;
