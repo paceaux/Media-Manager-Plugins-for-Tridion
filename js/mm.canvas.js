@@ -32,18 +32,33 @@
         return url;
       };
       this.resourceUrl = this.ResourceUrl();
-      this.Video = function (renditions) {
-        var video = document.createElement('video');
+      this.Video = function (renditions, metadata) {
+        var video = document.createElement('video'),
+            ratio = metadata.aspectRatio,
+            floatRatio = (parseInt(ratio.substr(ratio.indexOf('/')+1), 10) / parseInt( ratio.substring(0, ratio.indexOf('/') ) ) ) ;
         video.classList.add('sdlmm__video');
+        video.classList.add('sdlmm__video--' + this.data.space);
+        video.classList.add('sdlmm__video--ratio-'+metadata.aspectRatio.replace('/', '-'));
+        video.classList.add('sdlmm__video--height-'+metadata.height);
+        video.classList.add('sdlmm__video--width-'+metadata.width);
         renditions.forEach(function (resource) {
           var source = document.createElement('source');
           source.src = resource.url;
           video.appendChild(source);
         });
+        if (this.data.space !== 'background') {
+          video.volume = parseInt(_this.data.volume);
+          video.controls = _this.data.controls;
+          video.style.height = (floatRatio *100) + '%' ;
+
+
+        } else {
+          video.muted = true;
+          video.controls = false;
+        }
         video.autoplay = _this.data.autoplay;
-        video.volume = parseInt(_this.data.volume);
         video.loop = _this.data.loop;
-        video.controls = _this.data.controls;
+        console.log(video.style);
         return video;
       };
 
@@ -57,9 +72,11 @@
               assets = containers[0].assets[0],
               renditionGroups = assets.renditionGroups,
               video;
+          console.log(assets);
           renditionGroups.forEach(function (group) {
             if (group.name.indexOf('Web') !== -1) {
-              var video = _this.Video(group.renditions);
+              var video = _this.Video(group.renditions, assets.metadata.properties);
+
               _this.appendChild(video);
             }
           });
