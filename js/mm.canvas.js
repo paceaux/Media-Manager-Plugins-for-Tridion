@@ -72,7 +72,7 @@
         if (src !== undefined) {
 
           _this.ctx.drawImage(src, x,y, w, h);
-          // var pixels = _this.ctx.getImageData(0,0,_this.data.w, _this.data.h),
+          // var pixels = _this.ctx.getImageData(0,0,w,h),
           // i = 0,
           // brightness;
             // for (; i < pixels.data.length; i += 4) {
