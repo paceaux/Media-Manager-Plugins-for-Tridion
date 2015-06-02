@@ -19,25 +19,37 @@
         <![endif]-->
 
         <!-- Add your site or application content here -->
+        <section>
         <figure class="sdlmm sdlmm--triangle" data-sdlmm-url="https://poc5.dist.sdlmedia.com/Distributions/?o=8CC0A9B4-5823-4136-98CD-67C0EB436641" data-sdlmm-autoplay="true" data-sdlmm-loop="true"data-sdlmm-volume="0.0" data-sdlmm-type="json">
 
         <figcaption class="sdlmm__caption">
-            Here's a Media Manager Video, in a Triangle
-
+            <h2>CSS Tricks: Triangle</h2>
+            <p>Uses a class name</p>
+            <pre>
+                .sdlmm--triangle    
+            </pre>
         </figcaption>
 
         </figure>
         <figure class="sdlmm sdlmm--circle" data-sdlmm-url="https://poc5.dist.sdlmedia.com/Distributions/?o=7045941B-0652-49ED-A5A9-240A91636FE5" data-sdlmm-autoplay="true" data-sdlmm-loop="true" data-sdlmm-volume="0.0"  data-sdlmm-type="json">
         <figcaption class="sdlmm__caption">
-            Here's a Media Manager Video, in a Circle
-
+            <h2>CSS Tricks: Circle</h2>
+            <p>Uses a class name</p>
+            <pre>
+                .sdlmm--circle    
+            </pre>
         </figcaption>
         </figure>
-        <figure class="sdlmm" data-sdlmm-url="https://poc5.dist.sdlmedia.com/Distributions/?o=C7AA603E-49CE-4329-9648-6C630162BC93" data-sdlmm-autoplay="true" data-sdlmm-loop="true" data-sdlmm-volume="0.0" data-sdlmm-controls="true" data-sdlmm-type="json">
-        <figcaption class="sdlmm__caption">
-            Here's a Media Manager Video, Hiding behind boxes
+        <div class="sdlmm__caption">
+            <h2>CSS + HTML Tricks: Boxes</h2>
+            <p>Add a few divs in front of the video</p>
+            <pre>
+                &lt;div class="sdlmm__overlay"&gt;
+                &lt;div class="sdlmm__overlay__square"&gt;
 
-        </figcaption>
+            </pre>
+        </div>
+        <figure class="sdlmm" data-sdlmm-url="https://poc5.dist.sdlmedia.com/Distributions/?o=C7AA603E-49CE-4329-9648-6C630162BC93" data-sdlmm-autoplay="true" data-sdlmm-loop="true" data-sdlmm-volume="0.0" data-sdlmm-controls="true" data-sdlmm-type="json">
         <div class="sdlmm__overlay">
             <div class="sdlmm__overlay__square"></div>
             <div class="sdlmm__overlay__square"></div>
@@ -59,22 +71,39 @@
             <div class="sdlmm__overlay__square"></div>
         </div>
         </figure>
+</section>
         <figure class="sdlmm" data-sdlmm-url="https://poc5.dist.sdlmedia.com/Distributions/?o=C7AA603E-49CE-4329-9648-6C630162BC93" data-sdlmm-autoplay="true" data-sdlmm-loop="true" data-sdlmm-volume="0.0" data-sdlmm-controls="true" data-sdlmm-type="json" data-sdlmm-space="background">
-            <figcaption class="sdlmm__caption">An Ambient Video</figcaption>
+            <figcaption class="sdlmm__caption">
+            <h2>Plugin Trick: Background Video</h2>
+            <pre>
+                data-sdlmm-space="background"
+            </pre>
+            </figcaption>
             <article>This is additional content that goes over the video</article>
+        </figure>
+        <figure class="sdlmm" data-sdlmm-url="https://poc5.dist.sdlmedia.com/Distributions/?o=7045941B-0652-49ED-A5A9-240A91636FE5" data-sdlmm-autoplay="true" data-sdlmm-loop="true" data-sdlmm-volume="0.0"  data-sdlmm-type="json" >
+        <figcaption class="sdlmm__caption">
+        <h2>Plugin Trick: foreground video</h2>
+            <pre>
+                data-sdlmm-space="background"
+            </pre>
+        </figcaption>
+
         </figure>
         <figure class="sdlmm" data-sdlmm-url="https://poc5.dist.sdlmedia.com/Distributions/?o=7045941B-0652-49ED-A5A9-240A91636FE5" data-sdlmm-autoplay="true" data-sdlmm-loop="true" data-sdlmm-volume="0.0"  data-sdlmm-type="json" data-sdlmm-canvas-effects='colorShift' data-sdlmm-colorshift='gray'>
         <figcaption class="sdlmm__caption">
-        This is a video rendered with canvas
-        <code>data-sdlm-mm-canvas-effects='colorShift'</code>
-        <code>data-sdlm-mm-canvas-colorshift='gray'</code>
+        <h2>Plugin Trick: Render with canvas</h2>
+        <pre>data-sdlm-mm-canvas-effects='colorShift'</pre>
+        <pre>data-sdlm-mm-canvas-colorshift='gray'</pre>
         </figcaption>
         </figure>
-        <figure class="sdlmm" data-sdlmm-url="https://poc5.dist.sdlmedia.com/Distributions/?o=7045941B-0652-49ED-A5A9-240A91636FE5" data-sdlmm-autoplay="true" data-sdlmm-loop="true" data-sdlmm-volume="0.0"  data-sdlmm-type="json" data-sdlmm-canvas-effects='zoom, colorshift' data-sdlmm-colorshift='none' data-sdlmm-canvas-zoom="1.5">
+        <figure class="sdlmm" data-sdlmm-url="https://poc5.dist.sdlmedia.com/Distributions/?o=7045941B-0652-49ED-A5A9-240A91636FE5" data-sdlmm-autoplay="true" data-sdlmm-loop="true" data-sdlmm-volume="0.0"  data-sdlmm-type="json" data-sdlmm-canvas-effects='zoom, colorshift' data-sdlmm-colorshift='gray' data-sdlmm-canvas-zoom="1.5">
         <figcaption class="sdlmm__caption">
-        <code>data-sdlm-mm-canvas-effects='colorShift'</code>
-        <code>data-sdlm-mm-canvas-colorshift='gray'</code>
-        <code>data-sdlmm-canvas-zoom="1.5"</code>
+        <h2>Plugin Trick: Render with Canvas</h2>
+
+        <pre>data-sdlm-mm-canvas-effects='zoom, colorShift'</pre>
+        <pre>data-sdlm-mm-canvas-colorshift='gray'</pre>
+        <pre>data-sdlmm-canvas-zoom="1.5"</pre>
 
         </figcaption>
         </figure>

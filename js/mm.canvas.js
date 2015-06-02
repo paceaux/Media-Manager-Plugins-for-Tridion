@@ -55,7 +55,6 @@
             },
             vidErr: function (err) {},
             vidPlay: function (e) {
-              console.log(_this.data);
               var zoom = _this.data['canvas-zoom'] !== undefined ? _this.data['canvas-zoom'] : 1;
               if (_this.ctx !== undefined) {
                 _this.drawOnCanvas(this,0,0, this.offsetWidth*zoom, this.offsetHeight*zoom);
