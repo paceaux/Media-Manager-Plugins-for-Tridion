@@ -17,6 +17,14 @@
   padding: 0.618em;
   background: rgba(180,180,180,0.6);
 }
+.sdlmm[data-sdlmm-space="background"] {
+  height: 480px;
+}
+.sdlmm[data-sdlmm-canvas-effects] .sdlmm__video {
+  visibility: hidden;
+  position: fixed;
+  left: -9999em;
+}
 .sdlmm__overlay {
   z-index: 10;
   position: absolute;
