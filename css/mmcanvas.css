@@ -1,10 +1,17 @@
 .sdlmm {
   position: relative;
   width: 850px;
+  border: 2px solid #434445;
 }
 .sdlmm__video {
   object-fit: contain;
   transition: all 1s ease-in-out;
+}
+.sdlmm__video--background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
 }
 .sdlmm__caption {
   padding: 0.618em;
