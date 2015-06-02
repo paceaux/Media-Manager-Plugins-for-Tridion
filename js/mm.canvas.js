@@ -10,9 +10,9 @@
           $this = $(this);
           this.colorizing = {
             rgb: {
-              r: 255,
-              g: 255,
-              b: 255
+              r: 1,
+              g: 1,
+              b: 1
             },
             hslToRgb: function (h,s,l) {
               var r, g, b;
@@ -55,9 +55,10 @@
             },
             vidErr: function (err) {},
             vidPlay: function (e) {
-              console.log('playing');
+              console.log(_this.data);
+              var zoom = _this.data['canvas-zoom'] !== undefined ? _this.data['canvas-zoom'] : 1;
               if (_this.ctx !== undefined) {
-                _this.drawOnCanvas(this,0,0, this.offsetWidth, this.offsetHeight);
+                _this.drawOnCanvas(this,0,0, this.offsetWidth*zoom, this.offsetHeight*zoom);
 
               }
             }
@@ -105,15 +106,17 @@
           i = 0,
           brightness;
             for (; i < pixels.data.length; i += 4) {
+              if (_this.data.colorshift !== 'none') {
                brightness = ((3*pixels.data[i]+4*pixels.data[i+1]+pixels.data[i+2])>>>3) / 256;
                pixels.data[i] = ((_this.colorizing.rgb.r * brightness)+0.5)>>0;
                pixels.data[i+1] = ((_this.colorizing.rgb.g * brightness)+0.5)>>0
                pixels.data[i+2] = ((_this.colorizing.rgb.b * brightness)+0.5)>>0
+             }
             }
              _this.ctx.putImageData(pixels, 0, 0);
 
           window.requestAnimationFrame(function () {
-            _this.drawOnCanvas(_this.videoEl, 0,0,w,h);
+            _this.drawOnCanvas(_this.videoEl, x,y,w,h);
           });
         }
       };
@@ -168,6 +171,11 @@
               _this.appendChild(video);
               _this.videoEl = video;
             if(_this.data['canvas-effects']) {
+              if (_this.data['colorshift'] === 'grayscale' || _this.data['colorshift'] === 'gray') {
+                _this.colorizing.rgb.r = 255;
+                _this.colorizing.rgb.g = 255;
+                _this.colorizing.rgb.b = 255;
+              }
               var canvas = _this.Canvas(video,assets.metadata.properties);
               _this.canvas = canvas;
               _this.ctx = _this.canvas.getContext('2d');
