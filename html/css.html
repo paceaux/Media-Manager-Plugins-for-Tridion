@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Media Manager and Canvas</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="/css/mmcanvas.css">
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    </head>
+    <body>
+      <h1>SDL Media Manager</h1>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <section>
+        <figure class="sdlmm sdlmm--triangle" data-sdlmm-url="https://poc5.dist.sdlmedia.com/Distributions/?o=8CC0A9B4-5823-4136-98CD-67C0EB436641" data-sdlmm-autoplay="true" data-sdlmm-loop="true"data-sdlmm-volume="0.0" data-sdlmm-type="json">
+
+        <figcaption class="sdlmm__caption">
+            <h2>CSS Tricks: Triangle</h2>
+            <p>Uses a class name</p>
+            <pre>
+                .sdlmm--triangle    
+            </pre>
+        </figcaption>
+
+        </figure>
+        <figure class="sdlmm sdlmm--circle" data-sdlmm-url="https://poc5.dist.sdlmedia.com/Distributions/?o=7045941B-0652-49ED-A5A9-240A91636FE5" data-sdlmm-autoplay="true" data-sdlmm-loop="true" data-sdlmm-volume="0.0"  data-sdlmm-type="json">
+        <figcaption class="sdlmm__caption">
+            <h2>CSS Tricks: Circle</h2>
+            <p>Uses a class name</p>
+            <pre>
+                .sdlmm--circle    
+            </pre>
+        </figcaption>
+        </figure>
+        <div class="sdlmm__caption">
+            <h2>CSS + HTML Tricks: Boxes</h2>
+            <p>Add a few divs in front of the video</p>
+            <pre>
+                &lt;div class="sdlmm__overlay"&gt;
+                &lt;div class="sdlmm__overlay__square"&gt;
+
+            </pre>
+        </div>
+        <figure class="sdlmm" data-sdlmm-url="https://poc5.dist.sdlmedia.com/Distributions/?o=C7AA603E-49CE-4329-9648-6C630162BC93" data-sdlmm-autoplay="true" data-sdlmm-loop="true" data-sdlmm-volume="0.0" data-sdlmm-controls="true" data-sdlmm-type="json">
+        <div class="sdlmm__overlay">
+            <div class="sdlmm__overlay__square"></div>
+            <div class="sdlmm__overlay__square"></div>
+            <div class="sdlmm__overlay__square"></div>
+            <div class="sdlmm__overlay__square"></div>
+            <div class="sdlmm__overlay__square"></div>
+            <div class="sdlmm__overlay__square"></div>
+            <div class="sdlmm__overlay__square"></div>
+            <div class="sdlmm__overlay__square"></div>
+            <div class="sdlmm__overlay__square"></div>
+            <div class="sdlmm__overlay__square"></div>
+            <div class="sdlmm__overlay__square"></div>
+            <div class="sdlmm__overlay__square"></div>
+            <div class="sdlmm__overlay__square"></div>
+            <div class="sdlmm__overlay__square"></div>
+            <div class="sdlmm__overlay__square"></div>
+            <div class="sdlmm__overlay__square"></div>
+            <div class="sdlmm__overlay__square"></div>
+            <div class="sdlmm__overlay__square"></div>
+        </div>
+        </figure>
+</section>
+        <figure class="sdlmm" data-sdlmm-url="https://poc5.dist.sdlmedia.com/Distributions/?o=C7AA603E-49CE-4329-9648-6C630162BC93" data-sdlmm-autoplay="true" data-sdlmm-loop="true" data-sdlmm-volume="0.0" data-sdlmm-controls="true" data-sdlmm-type="json" data-sdlmm-space="background">
+            <figcaption class="sdlmm__caption">
+            <h2>Plugin Trick: Background Video</h2>
+            <pre>
+                data-sdlmm-space="background"
+            </pre>
+            </figcaption>
+            <article>This is additional content that goes over the video</article>
+        </figure>
+        <figure class="sdlmm" data-sdlmm-url="https://poc5.dist.sdlmedia.com/Distributions/?o=7045941B-0652-49ED-A5A9-240A91636FE5" data-sdlmm-autoplay="true" data-sdlmm-loop="true" data-sdlmm-volume="0.0"  data-sdlmm-type="json" >
+        <figcaption class="sdlmm__caption">
+        <h2>Plugin Trick: foreground video</h2>
+            <pre>
+                data-sdlmm-space="background"
+            </pre>
+        </figcaption>
+
+        </figure>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+        <script type="text/javascript" src="../js/mm.canvas.js"></script>
+        <script type="text/javascript">
+          $('.sdlmm').mmplayer();
+        </script>
+
+
+    </body>
+</html>
