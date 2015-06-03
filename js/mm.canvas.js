@@ -95,14 +95,14 @@
                 return canvas;
             };
             this.drawTextOnCanvas = function (text) {
-              var cText;
+              var font = "48px sans-serif", lineWidth = 4, strokeColor = 'black', fillColor = 'white', cText;
               if (_this.data['canvas-text'] !== undefined){
                 cText = JSON.parse(_this.data['canvas-text']);
-                _this.ctx.font = "48px sans-serif";
-                _this.ctx.strokeStyle = 'black';
-                _this.ctx.lineWidth = 4;
+                _this.ctx.font = cText.font !== undefined ? cText.font : font;
+                _this.ctx.strokeStyle = cText.strokeColor !== undefined ? cText.strokeColor : strokeColor; 
+                _this.ctx.lineWidth = cText.lineWidth !== undefined ? cText.lineWidth : lineWidth;
                 _this.ctx.strokeText(cText.text, cText.x, cText.y);
-                _this.ctx.fillStyle = 'white';
+                _this.ctx.fillStyle = cText.fillColor !== undefined ? cText.fillColor : fillColor;
                 _this.ctx.fillText(cText.text, cText.x, cText.y);
               }
 
@@ -113,9 +113,7 @@
                 if (src !== undefined) {
                   _this.ctx.drawImage(src, x, y, w, h);
                   if (_this.data.colorshift && _this.data.colorshift !== 'none') {
-                    var pixels = _this.ctx.getImageData(0, 0, w, h),
-                        i = 0,
-                        brightness;
+                    var pixels = _this.ctx.getImageData(0, 0, w, h),i = 0,brightness;
                     for (; i < pixels.data.length; i += 4) {
                             brightness = ((3 * pixels.data[i] + 4 * pixels.data[i + 1] + pixels.data[i + 2]) >>> 3) / 256;
                             pixels.data[i] = ((_this.colorizing.rgb.r * brightness) + 0.5) >> 0;
@@ -149,12 +147,9 @@
                     video.volume = parseInt(_this.data.volume);
                     video.controls = _this.data.controls;
                     video.style.height = (floatRatio * 100) + '%';
-
-
                 } else {
                     video.muted = true;
                     video.controls = false;
-
                 }
                 video.autoplay = _this.data.autoplay;
                 video.loop = _this.data.loop;
@@ -195,11 +190,7 @@
                                 canvas.width = video.offsetWidth;
                                 _this.appendChild(canvas);
                                 video.addEventListener('play', _this.callbacks.vidPlay, false);
-                                console.log(_this.data)
                             }
-
-
-
                         }
                     });
                 });
@@ -209,8 +200,6 @@
                 'width': '100%',
                 'type': 'embed'
             }, params);
-
-
         });
     }
 }(jQuery));
