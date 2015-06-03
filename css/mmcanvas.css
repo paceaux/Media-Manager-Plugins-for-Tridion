@@ -27,6 +27,7 @@ section {
   visibility: hidden;
   position: fixed;
   left: -9999em;
+  width: inherit;
 }
 .sdlmm__overlay {
   z-index: 10;
