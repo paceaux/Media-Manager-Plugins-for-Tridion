@@ -134,19 +134,22 @@
                     var cEvt = _this.enrichments.customEvents[evt],
                         time = cEvt.appearsAt.split(':');
                     cEvt.appearsAtInt = (+time[0]) * 60 * 60 + (+time[1]) * 60 + (+time[2]);
-
                 }
             };
             this.setCustomEvents = function (video) {
                 if (_this.enrichments.customEvents.length >0) {
-                    var cEvts = _this.enrichments.customEvents;
+                    var cEvts = _this.enrichments.customEvents, 
+                        cEvtTimeList = {};
                     console.log(cEvts);
+                    for (var cEvt in cEvts) {
+                        cEvtTimeList[cEvts[cEvt].appearsAtInt] = cEvts[cEvt];
+                    }
+                    console.log(cEvtTimeList);
                     video.ontimeupdate = function (e) {
-                        cEvts.forEach(function (evt) {
-                            if (evt.appearsAtInt < (this.currentTime -1) && evt.appearsAtInt > (this.currentTime +1)) {
-                                video.dispatch('playtime')
-                            }
-                        });
+                         if (cEvtTimeList[Math.floor(this.currentTime)] && !cEvtTimeList[Math.floor(this.currentTime)].fired ) {
+                            console.log(cEvtTimeList[Math.floor(this.currentTime)]);
+                            cEvtTimeList[Math.floor(this.currentTime)].fired = true;
+                         }
                     }
                 }
             };
@@ -177,9 +180,7 @@
                 video.loop = _this.data.loop;
                 _this.setCustomEvents(video);
 
-                video.addEventListener('playtime', function (e) {
-                    console.log('player moment',e);
-                });
+       
                 return video;
             };
             this.setVideoStream = function() {
