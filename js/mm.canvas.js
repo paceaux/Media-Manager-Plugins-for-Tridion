@@ -133,14 +133,16 @@
                 for (var evt in _this.enrichments.customEvents) {
                     var cEvt = _this.enrichments.customEvents[evt],
                         time = cEvt.appearsAt.split(':');
-                    cEvt.appearsAtInt = (+time[0]) * 60 * 60 + (+time[1]) * 60 + (+time[2]);
+                    time[0] = parseInt(time[0],10);
+                    time[1] = parseInt(time[1], 10);
+                    console.log(time);
+                    cEvt.appearsAtInt = ( ( ( (parseInt(time[2],10)/60 + parseInt(time[1], 10) ) /60 ) /10)   )*60 *60;
                 }
             };
             this.setCustomEvents = function (video) {
                 if (_this.enrichments.customEvents.length >0) {
                     var cEvts = _this.enrichments.customEvents, 
                         cEvtTimeList = {};
-                    console.log(cEvts);
                     for (var cEvt in cEvts) {
                         cEvtTimeList[cEvts[cEvt].appearsAtInt] = cEvts[cEvt];
                     }
