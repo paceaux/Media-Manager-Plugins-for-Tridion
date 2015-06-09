@@ -1,6 +1,7 @@
 (function($) {
     $.fn.mmplayer = function(params) {
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+        var playtimeevt = new CustomEvent('playtime',{'playermoment': this.currentTime});
 
         return this.each(function() {
             //SETUP
@@ -128,6 +129,27 @@
                   });
                 }
             };
+            this.modifyEnrichmentData = function () {
+                for (var evt in _this.enrichments.customEvents) {
+                    var cEvt = _this.enrichments.customEvents[evt],
+                        time = cEvt.appearsAt.split(':');
+                    cEvt.appearsAtInt = (+time[0]) * 60 * 60 + (+time[1]) * 60 + (+time[2]);
+
+                }
+            };
+            this.setCustomEvents = function (video) {
+                if (_this.enrichments.customEvents.length >0) {
+                    var cEvts = _this.enrichments.customEvents;
+                    console.log(cEvts);
+                    video.ontimeupdate = function (e) {
+                        cEvts.forEach(function (evt) {
+                            if (evt.appearsAtInt < (this.currentTime -1) && evt.appearsAtInt > (this.currentTime +1)) {
+                                video.dispatch('playtime')
+                            }
+                        });
+                    }
+                }
+            };
             this.Video = function(renditions, metadata) {
                 var video = document.createElement('video'),
                     ratio = metadata.aspectRatio,
@@ -153,6 +175,11 @@
                 }
                 video.autoplay = _this.data.autoplay;
                 video.loop = _this.data.loop;
+                _this.setCustomEvents(video);
+
+                video.addEventListener('playtime', function (e) {
+                    console.log('player moment',e);
+                });
                 return video;
             };
             this.setVideoStream = function() {
@@ -170,6 +197,8 @@
                         assets = containers[0].assets[0],
                         renditionGroups = assets.renditionGroups,
                         video;
+                    _this.enrichments = assets.enrichments;
+                    _this.modifyEnrichmentData();
                     renditionGroups.forEach(function(group) {
                         if (group.name.indexOf('Web') !== -1) {
                             var video = _this.Video(group.renditions, assets.metadata.properties);
