@@ -135,14 +135,13 @@
                         time = cEvt.appearsAt.split(':');
                     time[0] = parseInt(time[0],10);
                     time[1] = parseInt(time[1], 10);
-                    console.log(time);
-                    cEvt.appearsAtInt = ( ( ( (parseInt(time[2],10)/60 + parseInt(time[1], 10) ) /60 ) /10)   )*60 *60;
+                    cEvt.appearsAtInt = Math.floor(( ( ( (parseInt(time[2],10)/60 + parseInt(time[1], 10) ) /60 ) /10)   )*60 *60);
                 }
             };
             this.setCustomEvents = function (video) {
                 if (_this.enrichments.customEvents.length >0) {
                     var cEvts = _this.enrichments.customEvents, 
-                        cEvtTimeList = {};
+                        cEvtTimeList = [];
                     for (var cEvt in cEvts) {
                         cEvtTimeList[cEvts[cEvt].appearsAtInt] = cEvts[cEvt];
                     }
