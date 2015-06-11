@@ -1,11 +1,13 @@
 # Media Manager Tools for Tridion
 
 ## CSS Tools
-
+The file `css.html` contains a demo of CSS tricks and hacks that you can do with Media Manager videos. 
 
 ## jQuery plugins for SDL's Media Manager
 
 ## The Canvas Plugin
+The file `canvas.html` contains a demo of this plugin's features. 
+
 This is a brand new jQuery plugin. This uses the HTML5 Canvas API, and it relies on Media Manager's new JSON API. The plugin has been tested with jQuery 1.8.3 - 2.0 in Chrome and Firefox. This plugin is intended for modern browsers, as it uses the following HTML5 APIs
 
 + Canvas
@@ -23,7 +25,39 @@ With the Canvas plugin, several feaures are available. They include:
 
 ### Setting Parameters
 
-This jQuery plugin was not built to work like other jQuery plugins that you may have worked with in the past; it does *not* accept parameters via JavaScript. Instead, parameters are set via HTML. This means that a content management system (CMS), such as Tridion, could contain a schema that stores configurations for the video that a content author can set, and that the configurations are translated into basic HTML.  
+This jQuery plugin was not built to work like other jQuery plugins that you may have worked with in the past; it does *not* accept parameters via JavaScript. Instead, parameters are set via HTML. This means that a content management system (CMS), such as Tridion, could contain a schema that stores configurations for the video that a content author can set, and that the configurations are translated into basic HTML with a template or a view. 
+
+
+Al parameters are set in the HTML element of a parent container, using a `data-sdlmm` attribute. 
+
+#### Standard Parameters
+
++ set the URI: `data-sdlmm-url="https://poc5.dist.sdlmedia.com/Distributions/?o=7045941B-0652-49ED-A5A9-240A91636FE5"` 
++ data type of the URI:   data-sdlmm-type="json"
++ autoplay: boolean:  ` data-sdlmm-autoplay="true"`
++ looping:boolean:  `data-sdlmm-loop="true"`
++ volume:float: `data-sdlmm-volume="0.0"`
++ native-browser controls: boolean: `data-sdlmm-controls="true"`
+
+#### Canvas Parameters
+It's not necessary, but certainly more fun, to use Canvas to display video, instead of native video
++ use Canvas effects: comma-separated string value of effects (colorshift, text, zoom): data-sdlmm-canvas-effects='text'
++ colorshift: text : `data-sdlmm-colorshift='gray'`
++ text: json string of text and parameters: `data-sdlmm-canvas-text='{"text": "Text with Custom Events", "x" : 100, "y" : 100, "font": "30px serif"}'`
+
+### Custom Events
+It is possible to also use the Custom Events API in Media Manager to insert text, with an animation, at specific points in the duration of the video. 
+
+With this, the user should set the name of the custom event as `animation`. 
+
+The value should be a JSON-like argument:
+`{origin:, text: Sentence-using-hyphens-as-strings}`
+
++ origin : fromLeft, fromRight, fromTop, fromBottom
++ text: optional, should use basic characters and hyphens to separate spaces (sorry)
+
+The text will animate *to* the coordinates that have been set in the text parameters. 
+
 
 ## The Standard Plugin
 
