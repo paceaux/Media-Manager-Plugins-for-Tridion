@@ -1,18 +1,40 @@
-# Media Manager Plugins for Tridion
+# Media Manager Tools for Tridion
 
-JavaScript plugins, jQuery plugins,  and Razor TBBs that make it a easier to get Media Manager working in Tridion
+## CSS Tools
 
 
-### JavaScript Filmstrip Module - Upcoming Features
-+ a jQuery plugin for the filmstrip itself 
+## jQuery plugins for SDL's Media Manager
 
-## The jQuery Plugin
+## The Canvas Plugin
+This is a brand new jQuery plugin. This uses the HTML5 Canvas API, and it relies on Media Manager's new JSON API. The plugin has been tested with jQuery 1.8.3 - 2.0 in Chrome and Firefox. This plugin is intended for modern browsers, as it uses the following HTML5 APIs
 
-the jQuery plugin is  `mm.plugin.js`. The plugin has been tested with jQuery 1.8.3 - 2.0. 
++ Canvas
++ getUserMedia
++ Video
+
+### Features
+
+With the Canvas plugin, several feaures are available. They include:
++ Convert a video to gray scale (other color conversions coming soon)
++ Display a zoomed video
++ Set a video to be either background or foreground (if you want copy to lay on top of the video)
++ Insert styled text into a video
++ Use the Custom Events in Media Manager to insert animated text at specific points in the video
 
 ### Setting Parameters
 
-**The jQuery plugin does not work like other jQuery plugins you may have worked with in the past; it does *not* accept parameters via JavaScript.** 
+This jQuery plugin was not built to work like other jQuery plugins that you may have worked with in the past; it does *not* accept parameters via JavaScript. Instead, parameters are set via HTML. This means that a content management system (CMS), such as Tridion, could contain a schema that stores configurations for the video that a content author can set, and that the configurations are translated into basic HTML.  
+
+## The Standard Plugin
+
+The HTML file `video.html` contains a demo of the standard jQuery plugin
+
+The jQuery plugin is  `mm.plugin.js`. The plugin has been tested with jQuery 1.8.3 - 2.0 in Chrome, Firefox, IE8+, and Safari. 
+
+### Setting Parameters
+
+The jQuery plugin does not work like other jQuery plugins you may have worked with in the past; it does *not* accept parameters via JavaScript.
+
 
 The Media Manager jQuery plugin instead accepts parameters via HTML&mdash;so that you can allow content authors or Template Building Blocks (TBBs) to set parameters (example Razor templates and schemas to come).
 
@@ -20,7 +42,7 @@ The Media Manager jQuery plugin instead accepts parameters via HTML&mdash;so tha
 
 This jQuery plugin accepts parameters via a `data-*` attribute. Add a `data-video` attribute to your element, and set the value as a stringified JSON object: 
     
-    <div data-video='{"height": "200px", "type":"iframe", "url" :"http://nationwide.dist.sdlmedia.com/vms/distribution/embed/?o=46A74ED4-23BC-4E29-9B2C-D3E1C9D338FD"}'></div>
+    <div data-video='{"height": "200px", "type":"iframe", "url" :"http://[clientname].dist.sdlmedia.com/vms/distribution/embed/?o=46A74ED4-23BC-4E29-9B2C-D3E1C9D338FD"}'></div>
 
 
 ##### What Parameters are Available?
@@ -36,16 +58,13 @@ The following parameters are available to you:
 
 It's not necessary to set the parameters in a single HTML `data-*` attribute. This can make for writing messy TBBs. If you want, you can make each parameter its own `data-video-*`  attribute: 
     
-    <div data-video='{"height": "150px", "width":"250px"}' data-video-type='{"type":"embed"}' data-video-url="http://nationwide.dist.sdlmedia.com/vms/distribution/embed/?o=46A74ED4-23BC-4E29-9B2C-D3E1C9D338FD"></div>
+    <div data-video='{"height": "150px", "width":"250px"}' data-video-type='{"type":"embed"}' data-video-url="http://[clientname].dist.sdlmedia.com/vms/distribution/embed/?o=46A74ED4-23BC-4E29-9B2C-D3E1C9D338FD"></div>
 
-### Using the jQuery plugin
+### Activating the jQuery plugin
 To use the jQuery plugin, just make sure that `mm.plugin.js` is included in your HTML pages after your jQuery file (optimally, at the bottom of the page). After you've included the jQuery plugin file, you should add this to any JavaScript that would execute *after* the jQuery plugin file is loaded: 
     
     $('[data-video]').mediamanager();
 
 You can use any standard jQuery selector, however, this one guarantees that you always execute the mediamanager function on elements that have the `data-video` attribute. 
 
-### Upcoming jQuery Plugin features
-
-+ binding player events to external elements
 
