@@ -213,8 +213,11 @@
                              */
                              var commaReg = new RegExp(',', 'g'),
                                 colonReg = new RegExp(':', 'g'),
-                                spaceReg = new RegExp(' ','g');
-                            cEvts[cEvt].value = cEvts[cEvt].value.replace('{', '{"').replace('}', '"}').replace(commaReg,'","').replace(colonReg, '":"').replace(spaceReg,'');
+                                spaceReg = new RegExp(' ','g'),
+                                hyphenReg = new RegExp('-','g'),
+                                doubleSpcReg = new RegExp('/\s\s+', 'g')
+                                underReg = new RegExp('_', 'g');
+                            cEvts[cEvt].value = cEvts[cEvt].value.replace('{', '{"').replace('}', '"}').replace(commaReg,'","').replace(colonReg, '":"').replace(spaceReg,'').replace(hyphenReg, ' ').replace(underReg, ' ');
                             cEvts[cEvt].value = JSON.parse(cEvts[cEvt].value);
                         }
                     }
@@ -242,7 +245,9 @@
                 video.addEventListener('videoTime', function (e) {
                     var custEvent = this.customEventList[Math.floor(this.currentTime)];
                     console.log(custEvent.name, custEvent.value);
+
                     if (custEvent.name === 'animation') {
+                        if (custEvent.value.origin) _this.canvasData.textDrawing.text = custEvent.value.text;
                         switch(custEvent.value.origin){
                             case 'fromLeft':
                                 _this.canvasData.textDrawing.currentCoord.x= -400;
