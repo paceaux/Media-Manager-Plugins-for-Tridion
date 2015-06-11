@@ -92,14 +92,7 @@
                 return url;
             };
             this.resourceUrl = this.ResourceUrl();
-            this.Canvas = function(video, metadata) {
-                var canvas = document.createElement('canvas'),
-                    ratio = metadata.aspectRatio,
-                    floatRatio = (parseInt(ratio.substr(ratio.indexOf('/') + 1), 10) / parseInt(ratio.substring(0, ratio.indexOf('/'))));
-                canvas.classList.add('sdlmm__canvas');
-                _this.canvasData = {};
-                return canvas;
-            };
+
             this.setCanvasTextData = function () {
                 //declare variables for the userText and the canvas text default. 
                 var userCtext,
@@ -123,7 +116,7 @@
                 };
                 //set the canvas text to the stored data
                _this.canvasData.textDrawing = cText;
-               console.log(_this.canvasData.textDrawing);
+            console.log(cText);
             };
             this.drawTextOnCanvas = function (x,y, text) {
               if (_this.canvasData.textDrawing.text || text !== undefined) {
@@ -136,11 +129,6 @@
                 _this.ctx.fillStyle = cText.fillColor;
                 _this.ctx.fillText(cText.text, x, y);
               }
-
-            };
-            this.textStart = {
-                x: 0,
-                y: 0
             };
             this.drawOnCanvas = function(src, x, y, w, h) {
                 if (src.paused || src.ended) return false;
@@ -156,12 +144,22 @@
                         }
                       _this.ctx.putImageData(pixels, 0, 0);
                     }
+                _this.canvasData.textDrawing.currentCoord.x = _this.canvasData.textDrawing.currentCoord.x < _this.canvasData.textDrawing.x ? _this.canvasData.textDrawing.currentCoord.x+=10 : _this.canvasData.textDrawing.currentCoord.x >_this.canvasData.textDrawing.x ?_this.canvasData.textDrawing.currentCoord.x-=10 : _this.canvasData.textDrawing.currentCoord.x;
+                _this.canvasData.textDrawing.currentCoord.y = _this.canvasData.textDrawing.currentCoord.y < _this.canvasData.textDrawing.y ? _this.canvasData.textDrawing.currentCoord.y+=2 : _this.canvasData.textDrawing.currentCoord.y >_this.canvasData.textDrawing.y ?_this.canvasData.textDrawing.currentCoord.y-=2 : _this.canvasData.textDrawing.currentCoord.y;
 
-                _this.drawTextOnCanvas(_this.canvasData.textDrawing.currentCoord.x++, _this.canvasData.textDrawing.currentCoord.y);
+                _this.drawTextOnCanvas(_this.canvasData.textDrawing.currentCoord.x, _this.canvasData.textDrawing.currentCoord.y);
                   window.requestAnimationFrame(function() {
                       _this.drawOnCanvas(_this.videoEl, x, y, w, h);
                   });
                 }
+            };
+            this.Canvas = function(video, metadata) {
+                var canvas = document.createElement('canvas'),
+                    ratio = metadata.aspectRatio,
+                    floatRatio = (parseInt(ratio.substr(ratio.indexOf('/') + 1), 10) / parseInt(ratio.substring(0, ratio.indexOf('/'))));
+                canvas.classList.add('sdlmm__canvas');
+                _this.canvasData = {};
+                return canvas;
             };
             this.modifyEnrichmentData = function () {
                 for (var evt in _this.enrichments.customEvents) {
@@ -201,7 +199,7 @@
                              Because media manager UI converts symbols to HTML characters, we have the user provide invalid JSON strings. 
                              We'll insert some quotations in the right places so that JSON.parse can properly parse the string into an object
                              */
-                            cEvts[cEvt].value = JSON.parse(cEvts[cEvt].value.replace('{', '{"').replace('}', '"}').replace(':', '":"'));
+                            cEvts[cEvt].value = JSON.parse(cEvts[cEvt].value.replace('{', '{"').replace('}', '"}').replace(':', '":"').replace(' ',''));
                         }
                     }
                     video.customEventList = cEvtTimeList;
@@ -228,6 +226,27 @@
                 video.addEventListener('videoTime', function (e) {
                     var custEvent = this.customEventList[Math.floor(this.currentTime)];
                     console.log(custEvent.name, custEvent.value);
+                    if (custEvent.name === 'animation') {
+                        switch(custEvent.value.text){
+                            case 'fromLeft':
+                                _this.canvasData.textDrawing.currentCoord.x= -400;
+                            break;
+                            case 'fromRight':
+                                _this.canvasData.textDrawing.currentCoord.x = _this.canvas.offsetWidth;
+
+                            break;
+                            case 'fromTop':
+                                _this.canvasData.textDrawing.currentCoord.y= -50;
+                            break;
+                            case 'fromBottom':
+                                _this.canvasData.textDrawing.currentCoord.y = _this.canvas.offsetHeight;
+
+                            break;
+
+                            default:
+                            break;
+                        }
+                    }
                 });
             };
             this.setVideoUI = function (video, metadata) {
