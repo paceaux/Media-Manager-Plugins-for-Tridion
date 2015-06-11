@@ -1,14 +1,20 @@
 (function($) {
     $.fn.mmplayer = function(params) {
+        /*
+        Yes, this is a jQuery plugin. However, the insides don't use jQuery at all. 
+        So, if a client didn't want to use jQuery, that's fine. we can make a non-jquery version without issue
+        */
+        //make sure that GUM works the same in all browsers
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+        //create a custom event for custom events
         var videoTimeevt = new CustomEvent('videoTime',{
                 'detail': {
                     playTime: this.currentTime
                 }
             });
-
+        /*=== THE JUICY BITS ===*/
         return this.each(function() {
-            //SETUP
+            /*== INTERNAL VARIABLES==*/
             this.data = $.extend($(this).data('sdlmm'), params);
             var video,
                 _this = this,
@@ -42,6 +48,15 @@
                     return [r * 255, g * 255, b * 255];
                 },
             };
+            //take all of the data attributes and add them to the data that already exists on the object
+            for (var attr, i = 0, attrs = $this[0].attributes, l = attrs.length; i < l; i++) {
+                attr = attrs.item(i);
+                if (attr.nodeName.match('data-sdlmm-')) {
+                    name = attr.nodeName.replace('data-sdlmm-', '');
+                    this.data[name] = attr.nodeValue;
+                }
+            }
+            /*== VIDEO EVENT CALLBACKS==*/
             this.callbacks = {
                 vidSuc: function(stream) {
                     var _this = videoStream;
@@ -62,18 +77,12 @@
                 vidPlay: function(e) {
                     var zoom = _this.data['canvas-zoom'] !== undefined ? _this.data['canvas-zoom'] : 1;
                     if (_this.ctx !== undefined) {
-                        _this.drawOnCanvas(this, 0, 0, this.offsetWidth * zoom, this.offsetHeight * zoom);
+                        _this.drawCanvas(this, 0, 0, this.offsetWidth * zoom, this.offsetHeight * zoom);
 
                     }
                 }
             };
-            for (var attr, i = 0, attrs = $this[0].attributes, l = attrs.length; i < l; i++) {
-                attr = attrs.item(i);
-                if (attr.nodeName.match('data-sdlmm-')) {
-                    name = attr.nodeName.replace('data-sdlmm-', '');
-                    this.data[name] = attr.nodeValue;
-                }
-            }
+            /*== MM URI CLEANUP ==*/
             this.Uuid = function() {
                 return this.data.url.substring(this.data.url.indexOf('=') + 1);
             };
@@ -93,6 +102,7 @@
             };
             this.resourceUrl = this.ResourceUrl();
 
+            /*== CANVAS SHENANIGANS ==*/
             this.setCanvasTextData = function () {
                 //declare variables for the userText and the canvas text default. 
                 var userCtext,
@@ -116,7 +126,6 @@
                 };
                 //set the canvas text to the stored data
                _this.canvasData.textDrawing = cText;
-            console.log(cText);
             };
             this.drawTextOnCanvas = function (x,y, text) {
               if (_this.canvasData.textDrawing.text || text !== undefined) {
@@ -130,7 +139,7 @@
                 _this.ctx.fillText(cText.text, x, y);
               }
             };
-            this.drawOnCanvas = function(src, x, y, w, h) {
+            this.drawCanvas = function(src, x, y, w, h) {
                 if (src.paused || src.ended) return false;
                 if (src !== undefined) {
                   _this.ctx.drawImage(src, x, y, w, h);
@@ -149,7 +158,7 @@
 
                 _this.drawTextOnCanvas(_this.canvasData.textDrawing.currentCoord.x, _this.canvasData.textDrawing.currentCoord.y);
                   window.requestAnimationFrame(function() {
-                      _this.drawOnCanvas(_this.videoEl, x, y, w, h);
+                      _this.drawCanvas(_this.videoEl, x, y, w, h);
                   });
                 }
             };
@@ -161,6 +170,7 @@
                 _this.canvasData = {};
                 return canvas;
             };
+            /*== ENRICHMENT AND METADATA  ==*/
             this.modifyEnrichmentData = function () {
                 for (var evt in _this.enrichments.customEvents) {
                     var cEvt = _this.enrichments.customEvents[evt],
@@ -187,6 +197,7 @@
                 }
             };
             this.setCustomEvents = function (video) {
+                //if we have custom events, let's add them
                 if (_this.enrichments.customEvents.length >0) {
                     var cEvts = _this.enrichments.customEvents, 
                         cEvtTimeList = [];
@@ -195,11 +206,16 @@
                         cEvtTimeList[cEvts[cEvt].appearsAtInt] = cEvts[cEvt];
                         //if there's an animation, then, by golly, let's do something about it.
                         if (cEvts[cEvt].name === 'animation') {
-                            /*change the value from a string to an object.
+                            /*
+                            change the value from a string to an object.
                              Because media manager UI converts symbols to HTML characters, we have the user provide invalid JSON strings. 
                              We'll insert some quotations in the right places so that JSON.parse can properly parse the string into an object
                              */
-                            cEvts[cEvt].value = JSON.parse(cEvts[cEvt].value.replace('{', '{"').replace('}', '"}').replace(':', '":"').replace(' ',''));
+                             var commaReg = new RegExp(',', 'g'),
+                                colonReg = new RegExp(':', 'g'),
+                                spaceReg = new RegExp(' ','g');
+                            cEvts[cEvt].value = cEvts[cEvt].value.replace('{', '{"').replace('}', '"}').replace(commaReg,'","').replace(colonReg, '":"').replace(spaceReg,'');
+                            cEvts[cEvt].value = JSON.parse(cEvts[cEvt].value);
                         }
                     }
                     video.customEventList = cEvtTimeList;
@@ -227,7 +243,7 @@
                     var custEvent = this.customEventList[Math.floor(this.currentTime)];
                     console.log(custEvent.name, custEvent.value);
                     if (custEvent.name === 'animation') {
-                        switch(custEvent.value.text){
+                        switch(custEvent.value.origin){
                             case 'fromLeft':
                                 _this.canvasData.textDrawing.currentCoord.x= -400;
                             break;
