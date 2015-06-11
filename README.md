@@ -1,7 +1,25 @@
 # Media Manager Tools for Tridion
 
 ## CSS Tools
-The file `css.html` contains a demo of CSS tricks and hacks that you can do with Media Manager videos. 
+The file `css.html` contains a demo of CSS tricks and hacks that you can do with Media Manager videos. This requires the `mmcanvas.css` file to be included in the page. 
+
+### CSS Classes
+
++ `.sdlmm--triangle` : wraps the video in a triangle. Hover over to change the video to a  square
++ `.sdlmm--circle` : wraps the video in a circle. hover to change to full square
+
+### CSS + HTML 
++ Add an element with the class `.sdlmm__overlay`. 
++ Then insert elements, inside, with the class `.sdlmm__overlay__square`
+
+This will populate the container with squares that have very thick borders that cover the video
+
+### Ambient or "background" videos
++ add the HTML attribute `data-sdlmm-space="background"`
++ insert copy as you normally would in the HTML container. 
+
+The video will now be positioned absolute, and any content will sit on top of it. 
+
 
 ## jQuery plugins for SDL's Media Manager
 
