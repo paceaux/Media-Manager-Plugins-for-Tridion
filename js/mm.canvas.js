@@ -1,7 +1,11 @@
 (function($) {
     $.fn.mmplayer = function(params) {
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-        var playtimeevt = new CustomEvent('playtime',{'playermoment': this.currentTime});
+        var videoTimeevt = new CustomEvent('videoTime',{
+                'detail': {
+                    playTime: this.currentTime
+                }
+            });
 
         return this.each(function() {
             //SETUP
@@ -93,23 +97,52 @@
                     ratio = metadata.aspectRatio,
                     floatRatio = (parseInt(ratio.substr(ratio.indexOf('/') + 1), 10) / parseInt(ratio.substring(0, ratio.indexOf('/'))));
                 canvas.classList.add('sdlmm__canvas');
+                _this.canvasData = {};
                 return canvas;
             };
-            this.drawTextOnCanvas = function (text) {
-              var font = "48px sans-serif", lineWidth = 4, strokeColor = 'black', fillColor = 'white', cText;
-              if (_this.data['canvas-text'] !== undefined){
-                cText = JSON.parse(_this.data['canvas-text']);
-                _this.ctx.font = cText.font !== undefined ? cText.font : font;
-                _this.ctx.strokeStyle = cText.strokeColor !== undefined ? cText.strokeColor : strokeColor; 
-                _this.ctx.lineWidth = cText.lineWidth !== undefined ? cText.lineWidth : lineWidth;
-                _this.ctx.strokeText(cText.text, cText.x, cText.y);
-                _this.ctx.fillStyle = cText.fillColor !== undefined ? cText.fillColor : fillColor;
-                _this.ctx.fillText(cText.text, cText.x, cText.y);
+            this.setCanvasTextData = function () {
+                //declare variables for the userText and the canvas text default. 
+                var userCtext,
+                    cText = {
+                        font : "48px sans-serif",
+                        lineWidth : 4, 
+                        strokeColor : 'black', 
+                        fillColor : 'white'
+                    };
+                //if there's user-provided data, let's grab it and apply it to the default variable
+                if (_this.data['canvas-text']) {
+                    userCtext = JSON.parse(_this.data['canvas-text']);
+                    for (var attr in userCtext) {
+                        cText[attr] = userCtext[attr];
+                    }
+                }
+                //only if there's animation should the currentCoord not be the same as cText.x/y
+                cText.currentCoord = {
+                    x: -400,
+                    y: 48
+                };
+                //set the canvas text to the stored data
+               _this.canvasData.textDrawing = cText;
+               console.log(_this.canvasData.textDrawing);
+            };
+            this.drawTextOnCanvas = function (x,y, text) {
+              if (_this.canvasData.textDrawing.text || text !== undefined) {
+                var cText = _this.canvasData.textDrawing;
+                cText.text = text !== undefined ? text : _this.canvasData.textDrawing.text;
+                _this.ctx.font = cText.font;
+                _this.ctx.strokeStyle = cText.strokeColor; 
+                _this.ctx.lineWidth = cText.lineWidth;
+                _this.ctx.strokeText(cText.text, x, y);
+                _this.ctx.fillStyle = cText.fillColor;
+                _this.ctx.fillText(cText.text, x, y);
               }
 
             };
+            this.textStart = {
+                x: 0,
+                y: 0
+            };
             this.drawOnCanvas = function(src, x, y, w, h) {
-
                 if (src.paused || src.ended) return false;
                 if (src !== undefined) {
                   _this.ctx.drawImage(src, x, y, w, h);
@@ -123,7 +156,8 @@
                         }
                       _this.ctx.putImageData(pixels, 0, 0);
                     }
-                    _this.drawTextOnCanvas();
+
+                _this.drawTextOnCanvas(_this.canvasData.textDrawing.currentCoord.x++, _this.canvasData.textDrawing.currentCoord.y);
                   window.requestAnimationFrame(function() {
                       _this.drawOnCanvas(_this.videoEl, x, y, w, h);
                   });
@@ -135,7 +169,23 @@
                         time = cEvt.appearsAt.split(':');
                     time[0] = parseInt(time[0],10);
                     time[1] = parseInt(time[1], 10);
+                    /* This is not a standard conversion from "hh:mm::ss".
+                     Looks like the MM JSON Api has a conversion error that's taking time stored in base 60 (or whatever the hell time is),
+                     and it's converting that into decimal. and then provding a decimal value of the time in a standard time string
+                     so:
+                     00:00:45
+                     ends up as
+                     00:07:50
+                     
+                     because... 45/60 = .75 
+                     and Colons are decimals, so we carry the ten or some madness
+
+                    I'm a liberal arts major. This was the hardest thing I did in the entire project. 
+
+                    Use a normal conversion onnce this gets fixed. 
+                     */
                     cEvt.appearsAtInt = Math.floor(( ( ( (parseInt(time[2],10)/60 + parseInt(time[1], 10) ) /60 ) /10)   )*60 *60);
+
                 }
             };
             this.setCustomEvents = function (video) {
@@ -143,32 +193,46 @@
                     var cEvts = _this.enrichments.customEvents, 
                         cEvtTimeList = [];
                     for (var cEvt in cEvts) {
+                        cEvts[cEvt].cvsCtx = _this.ctx;
                         cEvtTimeList[cEvts[cEvt].appearsAtInt] = cEvts[cEvt];
+                        //if there's an animation, then, by golly, let's do something about it.
+                        if (cEvts[cEvt].name === 'animation') {
+                            /*change the value from a string to an object.
+                             Because media manager UI converts symbols to HTML characters, we have the user provide invalid JSON strings. 
+                             We'll insert some quotations in the right places so that JSON.parse can properly parse the string into an object
+                             */
+                            cEvts[cEvt].value = JSON.parse(cEvts[cEvt].value.replace('{', '{"').replace('}', '"}').replace(':', '":"'));
+                        }
                     }
-                    console.log(cEvtTimeList);
+                    video.customEventList = cEvtTimeList;
                     video.ontimeupdate = function (e) {
                          if (cEvtTimeList[Math.floor(this.currentTime)] && !cEvtTimeList[Math.floor(this.currentTime)].fired ) {
-                            console.log(cEvtTimeList[Math.floor(this.currentTime)]);
                             cEvtTimeList[Math.floor(this.currentTime)].fired = true;
+                            this.dispatchEvent(videoTimeevt);
                          }
                     }
                 }
             };
-            this.Video = function(renditions, metadata) {
-                var video = document.createElement('video'),
-                    ratio = metadata.aspectRatio,
-                    floatRatio = (parseInt(ratio.substr(ratio.indexOf('/') + 1), 10) / parseInt(ratio.substring(0, ratio.indexOf('/'))));
+            this.setVideoAttributes = function (video, metadata) {
                 video.classList.add('sdlmm__video');
                 video.classList.add('sdlmm__video--' + this.data.space);
                 video.classList.add('sdlmm__video--ratio-' + metadata.aspectRatio.replace('/', '-'));
                 video.classList.add('sdlmm__video--height-' + metadata.height);
                 video.classList.add('sdlmm__video--width-' + metadata.width);
-                renditions.forEach(function(resource) {
-                    var source = document.createElement('source');
-                    source.src = resource.url;
-                    video.appendChild(source);
-                });
                 video.crossOrigin = "Anonymous";
+
+            };
+            this.addVideoEventListeners = function (video) {
+                _this.setCustomEvents(video);
+                video.addEventListener('play', _this.callbacks.vidPlay, false);
+                video.addEventListener('videoTime', function (e) {
+                    var custEvent = this.customEventList[Math.floor(this.currentTime)];
+                    console.log(custEvent.name, custEvent.value);
+                });
+            };
+            this.setVideoUI = function (video, metadata) {
+                var ratio = metadata.aspectRatio,
+                    floatRatio = (parseInt(ratio.substr(ratio.indexOf('/') + 1), 10) / parseInt(ratio.substring(0, ratio.indexOf('/'))));
                 if (this.data.space !== 'background') {
                     video.volume = parseInt(_this.data.volume);
                     video.controls = _this.data.controls;
@@ -177,11 +241,22 @@
                     video.muted = true;
                     video.controls = false;
                 }
+            };
+            this.Video = function(renditions, metadata) {
+                var video = document.createElement('video');
+
+                renditions.forEach(function(resource) {
+                    var source = document.createElement('source');
+                    source.src = resource.url;
+                    video.appendChild(source);
+                });
+                _this.setVideoAttributes(video, metadata);
+                _this.setVideoUI(video, metadata);
+                _this.addVideoEventListeners(video);
                 video.autoplay = _this.data.autoplay;
                 video.loop = _this.data.loop;
-                _this.setCustomEvents(video);
 
-       
+        
                 return video;
             };
             this.setVideoStream = function() {
@@ -205,7 +280,6 @@
                         if (group.name.indexOf('Web') !== -1) {
                             var video = _this.Video(group.renditions, assets.metadata.properties);
                             canvas;
-
                             _this.appendChild(video);
                             _this.videoEl = video;
                             if (_this.data['canvas-effects']) {
@@ -217,10 +291,11 @@
                                 var canvas = _this.Canvas(video, assets.metadata.properties);
                                 _this.canvas = canvas;
                                 _this.ctx = _this.canvas.getContext('2d');
+                                _this.setCanvasTextData();
+                                
                                 canvas.height = video.offsetHeight;
                                 canvas.width = video.offsetWidth;
                                 _this.appendChild(canvas);
-                                video.addEventListener('play', _this.callbacks.vidPlay, false);
                             }
                         }
                     });
