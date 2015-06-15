@@ -58,6 +58,13 @@
             }
             /*== VIDEO EVENT CALLBACKS==*/
             this.callbacks = {
+                visChange: function (e) {
+                  if (document.visibilityState !== 'hidden') {
+                    _this.videoEl.play();
+                  } else {
+                    _this.videoEl.pause();
+                  }
+                },
                 vidSuc: function(stream) {
                     var _this = videoStream;
                     if ('mozSrcObject' in _this.data.videoEl) {
@@ -242,9 +249,9 @@
             this.addVideoEventListeners = function (video) {
                 _this.setCustomEvents(video);
                 video.addEventListener('play', _this.callbacks.vidPlay, false);
+                document.addEventListener('visibilitychange', _this.callbacks.visChange, false);
                 video.addEventListener('videoTime', function (e) {
                     var custEvent = this.customEventList[Math.floor(this.currentTime)];
-                    console.log(custEvent.name, custEvent.value);
 
                     if (custEvent.name === 'animation') {
                         if (custEvent.value.origin) _this.canvasData.textDrawing.text = custEvent.value.text;
