@@ -154,9 +154,9 @@
                     var pixels = _this.ctx.getImageData(0, 0, w, h),i = 0,brightness;
                     for (; i < pixels.data.length; i += 4) {
                             brightness = ((3 * pixels.data[i] + 4 * pixels.data[i + 1] + pixels.data[i + 2]) >>> 3) / 256;
-                            pixels.data[i] = ((_this.colorizing.rgb.r * brightness) + 0.5) >> 0;
-                            pixels.data[i + 1] = ((_this.colorizing.rgb.g * brightness) + 0.5) >> 0
-                            pixels.data[i + 2] = ((_this.colorizing.rgb.b * brightness) + 0.5) >> 0
+                            pixels.data[i] = ((_this.colorizing.rgb.r * brightness) + 0.1) >> 0;
+                            pixels.data[i + 1] = ((_this.colorizing.rgb.g * brightness) + 0.1) >> 0
+                            pixels.data[i + 2] = ((_this.colorizing.rgb.b * brightness) + 0.1) >> 0
                         }
                       _this.ctx.putImageData(pixels, 0, 0);
                     }
@@ -182,25 +182,8 @@
                 for (var evt in _this.enrichments.customEvents) {
                     var cEvt = _this.enrichments.customEvents[evt],
                         time = cEvt.appearsAt.split(':');
-                    time[0] = parseInt(time[0],10);
-                    time[1] = parseInt(time[1], 10);
-                    /* This is not a standard conversion from "hh:mm::ss".
-                     Looks like the MM JSON Api has a conversion error that's taking time stored in base 60 (or whatever the hell time is),
-                     and it's converting that into decimal. and then provding a decimal value of the time in a standard time string
-                     so:
-                     00:00:45
-                     ends up as
-                     00:07:50
-                     
-                     because... 45/60 = .75 
-                     and Colons are decimals, so we carry the ten or some madness
 
-                    I'm a liberal arts major. This was the hardest thing I did in the entire project. 
-
-                    Use a normal conversion onnce this gets fixed. 
-                     */
-                    cEvt.appearsAtInt = Math.floor(( ( ( (parseInt(time[2],10)/60 + parseInt(time[1], 10) ) /60 ) /10)   )*60 *60);
-
+                    cEvt.appearsAtInt =  (+time[0]) * 60 * 60 + (+time[1]) * 60 + (+time[2]);
                 }
             };
             this.setCustomEvents = function (video) {
