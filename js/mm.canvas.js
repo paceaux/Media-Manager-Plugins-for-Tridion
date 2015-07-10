@@ -313,11 +313,36 @@
                             _this.appendChild(video);
                             _this.videoEl = video;
                             if (_this.data['canvas-effects']) {
-                                if (_this.data['colorshift'] === 'grayscale' || _this.data['colorshift'] === 'gray') {
-                                    _this.colorizing.rgb.r = 255;
-                                    _this.colorizing.rgb.g = 255;
-                                    _this.colorizing.rgb.b = 255;
-                                }
+                                switch(_this.data['colorshift']) {
+                                    case ('gray'):
+                                        _this.colorizing.rgb.r = 255;
+                                        _this.colorizing.rgb.g = 255;
+                                        _this.colorizing.rgb.b = 255;
+                                    break;
+                                    case ('grayscale'):
+                                        _this.colorizing.rgb.r = 255;
+                                        _this.colorizing.rgb.g = 255;
+                                        _this.colorizing.rgb.b = 255;
+                                    break;
+
+                                    case  'sepia': 
+                                        _this.colorizing.rgb.r = 252;
+                                        _this.colorizing.rgb.g = 204;
+                                        _this.colorizing.rgb.b = 158;
+                                    break;
+                                    case 'red':
+                                        _this.colorizing.rgb.r = 252;
+                                        _this.colorizing.rgb.g = 194;
+                                        _this.colorizing.rgb.b = 178;
+                                    break;
+                                    case 'blue':
+                                        _this.colorizing.rgb.r = 198;
+                                        _this.colorizing.rgb.g = 204;
+                                        _this.colorizing.rgb.b = 252;
+                                    break;
+                                    default: 
+                                    break;
+                            }
                                 var canvas = _this.Canvas(video, assets.metadata.properties);
                                 _this.canvas = canvas;
                                 _this.ctx = _this.canvas.getContext('2d');
